@@ -4,7 +4,7 @@ import { searchLoaded } from "../actions";
 
 export const searchMiddleware = store => next => action => {
   if (action.type === SEARCH) {
-    API.getList(action.payload.query, action.payload.page).then(results => {
+    API.getList(action.payload.query, action.payload.pageNumber).then(results => {
       store.dispatch(searchLoaded(results));
     });
   }

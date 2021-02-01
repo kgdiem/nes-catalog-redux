@@ -1,16 +1,22 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import debounce from 'lodash.debounce';
 
 export interface SearchBarPropTypes {
   onChange: (val: string) => void;
+  value: string;
 }
 
-export const SearchBar = ({ onChange }: SearchBarPropTypes) => {
-  const [query, setQuery] = useState('');
+export const SearchBar = ({ onChange, value }: SearchBarPropTypes) => {
+  const [query, setQuery] = useState(value);
+
   const debouncedSearch = useCallback(
 		debounce(val => onChange(val), 500),
 		[]
 	);
+
+  useEffect(() => {
+    setQuery(value);
+  }, [value])
 
   const search = (val: string) => {
     setQuery(val);

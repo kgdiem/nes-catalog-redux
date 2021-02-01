@@ -1,30 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, connect } from 'react-redux';
 
 import { GameList, Header, Pagination, SearchBar } from "../components";
-import { getList, search } from '../redux';
+import { getList, getPage,  getQuery, search } from '../redux';
 
 const SearchPageComponent = ({ search }) => {
-  const [page, setPage] = useState<number>(1);
-  const [query, setQuery] = useState<string>('');
   const results = useSelector(getList);
+  const page = useSelector(getPage);
+  const query = useSelector(getQuery)
 
   const _search = (query?, page?) => search(query, page);
 
   useEffect(() => {
-    _search();
+    _search(query, page);
   }, []);
 
   const changePage = (pageNum) => {
-    setPage(pageNum);
-
     _search(query, pageNum);
   }
 
   const doSearch = query => {
-    setPage(1);
-    setQuery(query);
-
     _search(query, 1);
   }
 
@@ -32,7 +27,7 @@ const SearchPageComponent = ({ search }) => {
     <div className="p-10">
       <Header />
 
-      <SearchBar onChange={doSearch} />
+      <SearchBar value={query} onChange={doSearch} />
 
       <GameList list={results} />
 

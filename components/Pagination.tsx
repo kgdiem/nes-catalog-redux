@@ -36,11 +36,12 @@ export const Pagination = ({
   pageSize,
   total
 }: PaginationPropTypes) => {
-  if (!total || total === 1) {
+  const totalButtons = Math.ceil(total / pageSize);
+
+  if (!total || total === 1 || totalButtons <= 1) {
     return <div />;
   }
 
-  const totalButtons = Math.ceil(total / pageSize);
   const buttons = [];
 
   if (totalButtons <= numberOfButtons) {
